@@ -6,7 +6,7 @@
 
 ## 🚀 Proje Hakkında
 
-**Linguaminion**, yeni bir dil öğrenmek isteyen kişilere modern ve kullanıcı dostu bir arayüz sunmayı hedefler. Tamamen açık kaynaklı bir GitHub projesi olarak geliştirilen bu platform, kelime ezberleme, interaktif alıştırmalar ve günlük pratik yapma imkanı tanır. Link: https://nisanurozdemir.github.io/nislanguage/
+**Linguaminion**, yeni bir dil öğrenmek isteyen kişilere modern ve kullanıcı dostu bir arayüz sunmayı hedefler. Tamamen açık kaynaklı bir GitHub projesi olarak geliştirilen bu platform, kelime ezberleme, interaktif alıştırmalar ve günlük pratik yapma imkanı tanır. Link:[ https://nisanurozdemir.github.io/nislanguage/](https://nisanurozdemir.github.io/LinguaMinion/)
 
 ---
 
