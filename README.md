@@ -1,4 +1,4 @@
-# Linguaminion 🌐📚
+# LinguaMinion 🌐📚
 
 > **Linguaminion**, dil öğrenme sürecini eğlenceli, interaktif ve sürdürülebilir kılmak için geliştirilmiş açık kaynaklı bir web tabanlı dil öğrenme platformudur.
 
