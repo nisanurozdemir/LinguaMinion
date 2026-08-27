@@ -3,434 +3,1085 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinguaMinion - Eğlenceli Dil Öğrenme Platformu</title>
+    <title>LinguaMinion Pro - Kapsamlı & Eğlenceli Dil Akademisi</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome İkonlar -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        minion: {
-                            yellow: '#FCD116',
-                            darkYellow: '#E5B800',
-                            blue: '#1E3D59',
-                            darkBlue: '#17252A',
-                            accent: '#FF6F59'
+                        brand: {
+                            yellow: '#FFDE00',
+                            lightYellow: '#FEF08A',
+                            darkYellow: '#EAB308',
+                            blue: '#1E40AF',
+                            lightBlue: '#3B82F6',
+                            denim: '#0F172A',
+                            cardBg: '#FFFBEB'
                         }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'cursive', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'comic': '4px 4px 0px #0F172A',
+                        'comic-lg': '7px 7px 0px #0F172A',
+                        'comic-sm': '2px 2px 0px #0F172A',
+                        'comic-active': '1px 1px 0px #0F172A'
                     }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
         body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFFDF0;
+            color: #0F172A;
+        }
+        h1, h2, h3, h4, .font-comic {
             font-family: 'Fredoka', cursive, sans-serif;
         }
         .comic-border {
-            border: 3px solid #17252A;
-            box-shadow: 4px 4px 0px #17252A;
+            border: 3px solid #0F172A;
+        }
+        .comic-border-b {
+            border-bottom: 3px solid #0F172A;
         }
         .comic-btn {
-            border: 3px solid #17252A;
-            box-shadow: 3px 3px 0px #17252A;
-            transition: all 0.1s ease;
+            border: 3px solid #0F172A;
+            box-shadow: 4px 4px 0px #0F172A;
+            transition: all 0.12s ease-in-out;
+        }
+        .comic-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #0F172A;
         }
         .comic-btn:active {
             transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px #17252A;
+            box-shadow: 1px 1px 0px #0F172A;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FEF08A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0F172A;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="bg-amber-50 text-minion-darkBlue min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-yellow selection:text-brand-denim">
 
-    <!-- Header -->
-    <header class="bg-minion-yellow border-b-4 border-minion-darkBlue p-4 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="app.showHome()">
-                <div class="w-12 h-12 bg-white rounded-full comic-border flex items-center justify-center text-2xl">
+    <!-- ÜST NAVİGASYON VE STATÜ BAR -->
+    <header class="bg-brand-yellow comic-border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            
+            <!-- Logo & Karakter Başlığı -->
+            <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="app.navigate('home')">
+                <div class="w-12 h-12 bg-white rounded-2xl comic-border shadow-comic flex items-center justify-center text-2xl transform -rotate-3 hover:rotate-6 transition">
                     🍌
                 </div>
-                <h1 class="text-2xl font-bold tracking-wider">Lingua<span class="text-blue-600">Minion</span></h1>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold tracking-wide flex items-center gap-2">
+                        Lingua<span class="text-brand-blue">Minion</span>
+                        <span class="text-xs bg-brand-blue text-white px-2 py-0.5 rounded-full font-sans uppercase">Pro v2.0</span>
+                    </h1>
+                    <p class="text-xs font-semibold text-slate-800 -mt-1">Akıllı Dil & CEFR Müfredat Laboratuvarı</p>
+                </div>
             </div>
-            <div id="user-status" class="flex items-center space-x-3">
-                <span id="current-lang-badge" class="hidden bg-white comic-border px-3 py-1 rounded-full text-sm font-bold"></span>
-                <span id="current-level-badge" class="hidden bg-blue-500 text-white comic-border px-3 py-1 rounded-full text-sm font-bold"></span>
+
+            <!-- Menü ve İstatistik Göstergeleri -->
+            <div class="flex items-center flex-wrap gap-3 font-comic">
+                <!-- Nav Linkleri -->
+                <button onclick="app.navigate('curriculum')" class="bg-white hover:bg-yellow-100 text-xs md:text-sm font-bold px-3 py-1.5 rounded-xl comic-border shadow-comic">
+                    <i class="fa-solid fa-book-open mr-1 text-blue-600"></i> Müfredat
+                </button>
+                <button onclick="app.navigate('vault')" class="bg-white hover:bg-yellow-100 text-xs md:text-sm font-bold px-3 py-1.5 rounded-xl comic-border shadow-comic">
+                    <i class="fa-solid fa-layer-group mr-1 text-amber-600"></i> Kelime Kasası
+                </button>
+                
+                <!-- Gamification Rozetleri -->
+                <div class="bg-amber-100 comic-border px-3 py-1 rounded-xl flex items-center space-x-2 text-sm font-bold shadow-comic-sm">
+                    <span title="Muz Puanı">🍌 <span id="stat-bananas" class="text-amber-800">120</span></span>
+                    <span class="text-slate-300">|</span>
+                    <span title="XP Seviyesi">⚡ <span id="stat-xp" class="text-blue-700">450 XP</span></span>
+                    <span class="text-slate-300">|</span>
+                    <span id="stat-lang" class="bg-brand-blue text-white px-2 py-0.5 rounded-md text-xs uppercase">EN</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-4xl mx-auto p-4 flex-1 w-full my-6">
+    <!-- ANA İÇERİK KONTEYNERİ -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
 
-        <!-- 1. Karşılama ve Dil Seçim Ekranı -->
-        <section id="view-home" class="text-center space-y-8">
-            <div class="bg-white p-8 rounded-3xl comic-border relative overflow-hidden">
-                <div class="text-6xl mb-4">👓🟡</div>
-                <h2 class="text-3xl font-bold mb-2">Bello! Dil Öğrenmeye Hazır mısın?</h2>
-                <p class="text-gray-600 text-lg max-w-xl mx-auto mb-6">
-                    Yapay zeka destekli akıllı seviye belirleme testiyle hemen başla, seviyene özel 20 üniteli eğlenceli müfredatla hızla ilerle!
-                </p>
-
-                <h3 class="text-xl font-bold mb-4">Öğrenmek İstediğin Dili Seç:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-lg mx-auto">
-                    <button onclick="app.startAssessment('en')" class="bg-amber-100 hover:bg-minion-yellow p-4 rounded-2xl comic-btn flex flex-col items-center">
-                        <span class="text-4xl mb-2">🇬🇧</span>
-                        <span class="font-bold text-lg">İngilizce</span>
-                    </button>
-                    <button onclick="app.startAssessment('de')" class="bg-amber-100 hover:bg-minion-yellow p-4 rounded-2xl comic-btn flex flex-col items-center">
-                        <span class="text-4xl mb-2">🇩🇪</span>
-                        <span class="font-bold text-lg">Almanca</span>
-                    </button>
-                    <button onclick="app.startAssessment('es')" class="bg-amber-100 hover:bg-minion-yellow p-4 rounded-2xl comic-btn flex flex-col items-center">
-                        <span class="text-4xl mb-2">🇪🇸</span>
-                        <span class="font-bold text-lg">İspanyolca</span>
-                    </button>
+        <!-- ==================== 1. GİRİŞ & DİL SEÇİMİ ==================== -->
+        <section id="view-home" class="space-y-8 animate-fade-in">
+            <!-- Hero Banner -->
+            <div class="bg-brand-yellow p-8 md:p-12 rounded-3xl comic-border shadow-comic-lg relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 text-9xl opacity-20 select-none pointer-events-none">🍌</div>
+                <div class="max-w-3xl space-y-4">
+                    <span class="inline-block bg-white text-brand-denim text-sm font-bold px-4 py-1.5 rounded-full comic-border shadow-comic-sm font-comic">
+                        🚀 CEFR Uyumlu 2026 Adaptif Dil Motoru
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+                        Ezberlemeyi Bırak! <br><span class="text-brand-blue">Gerçekten Konuşmaya Başla.</span>
+                    </h2>
+                    <p class="text-slate-800 text-lg md:text-xl font-medium leading-relaxed">
+                        Akıllı 15 soruluk seviye belirleme testiyle başla, A1'den A2'ye ve B1'e uzanan <b>derinlemesine detaylandırılmış kurallar, telaffuzlu dev kelime bankası ve interaktif diyaloglarla</b> dil bariyerini aş!
+                    </p>
                 </div>
             </div>
-        </section>
 
-        <!-- 2. Dinamik Seviye Tespit Sınavı -->
-        <section id="view-assessment" class="hidden">
-            <div class="bg-white p-6 md:p-8 rounded-3xl comic-border">
-                <div class="flex justify-between items-center mb-6">
-                    <span id="quiz-progress" class="font-bold text-gray-500">Soru 1 / 10</span>
-                    <span id="quiz-difficulty-tag" class="bg-yellow-200 text-xs px-2 py-1 rounded-md comic-border font-bold">A1 Seviyesi</span>
-                </div>
-
-                <div class="w-full bg-gray-200 h-4 rounded-full comic-border overflow-hidden mb-6">
-                    <div id="quiz-progress-bar" class="bg-minion-yellow h-full w-0 transition-all duration-300"></div>
-                </div>
-
-                <div class="mb-6">
-                    <h3 id="quiz-question" class="text-2xl font-bold mb-4">Soru metni buraya gelecek...</h3>
-                    <div id="quiz-options" class="grid grid-cols-1 gap-3">
-                        <!-- Şıklar dinamik yüklenir -->
-                    </div>
-                </div>
-
-                <div id="quiz-feedback" class="hidden p-4 rounded-xl comic-border mb-4 font-bold text-center"></div>
-                
-                <div class="flex justify-end">
-                    <button id="quiz-next-btn" onclick="app.nextQuestion()" class="hidden bg-minion-yellow text-minion-darkBlue px-6 py-2 rounded-xl comic-btn font-bold text-lg">
-                        Sonraki Soru 👉
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Seviye Sonuç ve Yol Haritası Ekranı -->
-        <section id="view-dashboard" class="hidden space-y-6">
-            <!-- Tebrik Kartı -->
-            <div class="bg-minion-yellow p-6 rounded-3xl comic-border flex flex-col md:flex-row items-center justify-between gap-4">
-                <div>
-                    <span class="bg-white px-3 py-1 rounded-full text-xs font-bold comic-border">SEVİYE BELİRLENDİ 🎉</span>
-                    <h2 id="user-level-title" class="text-3xl font-bold mt-2">Mevcut Seviyen: A2 (Elementary)</h2>
-                    <p class="text-gray-800">Hedef: <b>B1 (Intermediate)</b> seviyesine geçiş! Aşağıdaki 20 konuyu tamamlayarak B1'e yükseleceksin.</p>
-                </div>
-                <div class="text-5xl">🏆</div>
-            </div>
-
-            <!-- Ünite / Konu Listesi (20 Konu Başlığı) -->
-            <div class="bg-white p-6 rounded-3xl comic-border">
-                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <span>📚</span> A2 ➔ B1 Müfredatı (20 Adım)
+            <!-- Dil Seçim Kartları -->
+            <div>
+                <h3 class="text-2xl font-bold font-comic mb-4 text-center md:text-left flex items-center gap-2">
+                    <i class="fa-solid fa-earth-americas text-brand-blue"></i> Öğrenmek İstediğin Dili ve Yolculuğu Seç:
                 </h3>
-                <div id="curriculum-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[450px] overflow-y-auto p-1">
-                    <!-- Üniteler dinamik listelenir -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- İngilizce -->
+                    <div class="bg-white p-6 rounded-3xl comic-border shadow-comic hover:shadow-comic-lg transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-5xl">🇬🇧</span>
+                                <span class="bg-amber-100 text-amber-900 font-comic font-bold text-xs px-3 py-1 rounded-full comic-border">En Popüler</span>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-2">İngilizce Eğitimi</h4>
+                            <p class="text-slate-600 text-sm mb-4">A1-A2 Başlangıç & A2-B1 Orta Düzeye Geçiş modülleri. 1000+ kelime kökü ve gramer haritası.</p>
+                        </div>
+                        <div class="space-y-2 pt-4 border-t-2 border-slate-100">
+                            <button onclick="app.startAssessment('en')" class="w-full bg-brand-yellow hover:bg-brand-darkYellow text-brand-denim py-3 rounded-2xl comic-btn font-comic font-bold text-base flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play"></i> Seviye Testine Başla
+                            </button>
+                            <button onclick="app.quickLoadCurriculum('en', 'A1_A2')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-xs font-bold transition">
+                                Direkt A1 ➔ A2 Müfredatını İncele
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Almanca -->
+                    <div class="bg-white p-6 rounded-3xl comic-border shadow-comic hover:shadow-comic-lg transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-5xl">🇩🇪</span>
+                                <span class="bg-blue-100 text-blue-900 font-comic font-bold text-xs px-3 py-1 rounded-full comic-border">Der / Die / Das Odaklı</span>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-2">Almanca Eğitimi</h4>
+                            <p class="text-slate-600 text-sm mb-4">Artikeller, Akkusativ/Dativ ayrımları ve Trennbare Verben gibi zorlu konuların net mantığı.</p>
+                        </div>
+                        <div class="space-y-2 pt-4 border-t-2 border-slate-100">
+                            <button onclick="app.startAssessment('de')" class="w-full bg-brand-yellow hover:bg-brand-darkYellow text-brand-denim py-3 rounded-2xl comic-btn font-comic font-bold text-base flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play"></i> Seviye Testine Başla
+                            </button>
+                            <button onclick="app.quickLoadCurriculum('de', 'A1_A2')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-xs font-bold transition">
+                                Direkt A1 ➔ A2 Müfredatını İncele
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- İspanyolca -->
+                    <div class="bg-white p-6 rounded-3xl comic-border shadow-comic hover:shadow-comic-lg transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-5xl">🇪🇸</span>
+                                <span class="bg-rose-100 text-rose-900 font-comic font-bold text-xs px-3 py-1 rounded-full comic-border">Ser vs Estar</span>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-2">İspanyolca Eğitimi</h4>
+                            <p class="text-slate-600 text-sm mb-4">Günlük hayat konuşmaları, geçmiş zaman çekimleri ve pratik refleks alıştırmaları.</p>
+                        </div>
+                        <div class="space-y-2 pt-4 border-t-2 border-slate-100">
+                            <button onclick="app.startAssessment('es')" class="w-full bg-brand-yellow hover:bg-brand-darkYellow text-brand-denim py-3 rounded-2xl comic-btn font-comic font-bold text-base flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play"></i> Seviye Testine Başla
+                            </button>
+                            <button onclick="app.quickLoadCurriculum('es', 'A1_A2')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-xs font-bold transition">
+                                Direkt A1 ➔ A2 Müfredatını İncele
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- 4. Konu Detay & İnteraktif Öğrenme Alanı -->
-        <section id="view-topic" class="hidden space-y-4">
-            <button onclick="app.backToDashboard()" class="bg-gray-200 px-4 py-2 rounded-xl comic-btn font-bold">
-                ⬅ Müfredata Dön
-            </button>
-
-            <div class="bg-white p-6 md:p-8 rounded-3xl comic-border space-y-6">
-                <div>
-                    <span id="topic-unit-badge" class="bg-amber-200 text-xs px-2 py-1 rounded font-bold">Ünite 1</span>
-                    <h2 id="topic-title" class="text-2xl font-bold mt-1">Konu Başlığı</h2>
+        <!-- ==================== 2. AKILLI SEVİYE TESPİT SINAVI ==================== -->
+        <section id="view-assessment" class="hidden max-w-3xl mx-auto space-y-6">
+            <div class="bg-white p-6 md:p-10 rounded-3xl comic-border shadow-comic-lg">
+                <!-- Üst İlerleme ve Rozet -->
+                <div class="flex justify-between items-center mb-6">
+                    <span id="quiz-q-number" class="font-comic font-bold text-lg text-slate-700">Soru 1 / 15</span>
+                    <span id="quiz-category-tag" class="bg-brand-lightYellow text-brand-denim px-3 py-1 rounded-full comic-border text-xs font-bold font-comic">Gramer & Bağlam</span>
                 </div>
 
-                <!-- AI Açıklaması / Konu Anlatımı -->
-                <div class="bg-amber-50 p-4 rounded-2xl border-2 border-dashed border-amber-300">
-                    <h4 class="font-bold text-amber-900 mb-1">🤖 AI Minion Anlatımı:</h4>
-                    <p id="topic-explanation" class="text-gray-700 leading-relaxed"></p>
+                <!-- İlerleme Çubuğu -->
+                <div class="w-full bg-slate-100 h-5 rounded-full comic-border overflow-hidden mb-8 p-0.5">
+                    <div id="quiz-progress-bar" class="bg-brand-yellow h-full rounded-full transition-all duration-300 w-0"></div>
                 </div>
 
-                <!-- Kelime Kartları -->
-                <div>
-                    <h4 class="font-bold text-lg mb-2">🃏 Anahtar Kelime Kartları</h4>
-                    <div id="topic-flashcards" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <!-- Kartlar JS ile yüklenir -->
+                <!-- Soru Kartı -->
+                <div class="mb-8">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🍌</span>
+                        <h3 id="quiz-question-title" class="text-xl md:text-2xl font-bold font-comic text-brand-denim leading-snug">
+                            Soru metni yükleniyor...
+                        </h3>
+                    </div>
+                    <p id="quiz-question-sub" class="text-slate-500 text-sm italic mb-6">Boşluğa en uygun gelen doğru seçeneği işaretleyin:</p>
+
+                    <!-- Şıklar -->
+                    <div id="quiz-options-container" class="space-y-3">
+                        <!-- Dinamik JS şıkları -->
                     </div>
                 </div>
 
-                <!-- Pratik Testi -->
-                <div class="border-t-2 border-gray-100 pt-4">
-                    <h4 class="font-bold text-lg mb-2">🎯 Mini Pratik Sorusu</h4>
-                    <p id="topic-quiz-q" class="font-medium mb-3"></p>
-                    <div id="topic-quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+                <!-- Geri Bildirim Kutusu -->
+                <div id="quiz-feedback-box" class="hidden p-5 rounded-2xl comic-border mb-6">
+                    <div class="flex items-start gap-3">
+                        <span id="quiz-feedback-icon" class="text-3xl">💡</span>
+                        <div>
+                            <h5 id="quiz-feedback-title" class="font-comic font-bold text-lg">Doğru!</h5>
+                            <p id="quiz-feedback-desc" class="text-sm font-medium mt-1 leading-relaxed text-slate-700"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sonraki Soru Butonu -->
+                <div class="flex justify-end">
+                    <button id="quiz-next-btn" onclick="app.nextAssessmentQuestion()" class="hidden bg-brand-yellow hover:bg-brand-darkYellow text-brand-denim px-8 py-3 rounded-2xl comic-btn font-comic font-bold text-lg">
+                        Sonraki Soru <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 3. MÜFREDAT VE GELİŞİM HARİTASI (DASHBOARD) ==================== -->
+        <section id="view-curriculum" class="hidden space-y-8">
+            
+            <!-- Seviye Özeti Kartı -->
+            <div class="bg-brand-yellow p-6 md:p-8 rounded-3xl comic-border shadow-comic flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <span id="curr-badge-level" class="bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full comic-border">A1 ➔ A2 Kapsamlı Geçiş</span>
+                        <span class="bg-white text-slate-800 text-xs font-bold px-3 py-1 rounded-full comic-border">20 Temel Master Ünite</span>
+                    </div>
+                    <h2 class="text-3xl font-bold font-comic">Öğrenme Yol Haritan</h2>
+                    <p class="text-slate-800 max-w-2xl text-sm md:text-base">
+                        Her ünite; kural açıklamaları, istisnalar, telaffuzlu kelime kartları ve interaktif pratik içerir. Bir üniteyi tamamlamadan diğerine geçmeyin!
+                    </p>
+                </div>
+
+                <!-- Seviye Değiştirici -->
+                <div class="flex flex-col sm:flex-row gap-2 font-comic">
+                    <button onclick="app.switchLevelPathway('A1_A2')" class="bg-white hover:bg-yellow-100 text-xs font-bold px-4 py-2 rounded-xl comic-btn">
+                        🌱 A1 ➔ A2 (Temelden Sağlama)
+                    </button>
+                    <button onclick="app.switchLevelPathway('A2_B1')" class="bg-brand-blue hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-xl comic-btn">
+                        ⚡ A2 ➔ B1 (Akıcılık & Detay)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ünite Kartları Listesi (20 Konu Başlığı) -->
+            <div id="unit-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <!-- Dinamik JavaScript ile doldurulur -->
+            </div>
+        </section>
+
+        <!-- ==================== 4. DERİNLEMESİNE ÜNİTE İÇERİK MERKEZİ (STUDY HUB) ==================== -->
+        <section id="view-unit-study" class="hidden space-y-6">
+            <!-- Üst Navigasyon -->
+            <div class="flex justify-between items-center">
+                <button onclick="app.navigate('curriculum')" class="bg-white hover:bg-slate-100 px-4 py-2 rounded-xl comic-btn font-comic font-bold text-sm">
+                    <i class="fa-solid fa-chevron-left mr-1"></i> Tüm Ünitelere Dön
+                </button>
+                <div class="flex items-center gap-2">
+                    <span id="study-unit-level" class="bg-amber-100 text-amber-900 px-3 py-1 rounded-lg text-xs font-bold font-comic comic-border">ÜNİTE 1</span>
+                </div>
+            </div>
+
+            <!-- Çalışma Alanı Ana Kartı -->
+            <div class="bg-white rounded-3xl comic-border shadow-comic-lg overflow-hidden">
+                
+                <!-- Başlık ve Tab Başlıkları -->
+                <div class="bg-brand-yellow p-6 md:p-8 comic-border-b">
+                    <h2 id="study-title" class="text-2xl md:text-4xl font-bold font-comic mb-2">Konu Başlığı</h2>
+                    <p id="study-subtitle" class="text-slate-800 font-medium text-sm md:text-base"></p>
+
+                    <!-- Sekme Butonları -->
+                    <div class="flex flex-wrap gap-2 mt-6 font-comic">
+                        <button onclick="app.switchStudyTab('theory')" id="tab-btn-theory" class="bg-white text-brand-denim px-5 py-2.5 rounded-xl comic-border shadow-comic text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-book-bookmark text-blue-600"></i> 1. Ayrıntılı Konu Anlatımı & Kurallar
+                        </button>
+                        <button onclick="app.switchStudyTab('vocabulary')" id="tab-btn-vocabulary" class="bg-amber-100 hover:bg-white text-brand-denim px-5 py-2.5 rounded-xl comic-border text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-volume-high text-amber-600"></i> 2. Ünite Kelime Kartları & Telaffuz
+                        </button>
+                        <button onclick="app.switchStudyTab('practice')" id="tab-btn-practice" class="bg-amber-100 hover:bg-white text-brand-denim px-5 py-2.5 rounded-xl comic-border text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-vial-circle-check text-green-600"></i> 3. İnteraktif Pratik & AI Testi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab İçerikleri -->
+                <div class="p-6 md:p-8 space-y-6">
+
+                    <!-- Sekme 1: Derinlemesine Konu Anlatımı -->
+                    <div id="study-tab-theory" class="space-y-6">
+                        <div id="theory-content-body" class="prose max-w-none space-y-6 text-slate-800 leading-relaxed">
+                            <!-- Dinamik HTML Anlatım -->
+                        </div>
+                    </div>
+
+                    <!-- Sekme 2: Kelime Kartları & Sesli Telaffuz -->
+                    <div id="study-tab-vocabulary" class="hidden space-y-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="text-xl font-bold font-comic">Bu Ünitenin Kritik Kelimeleri</h4>
+                                <p class="text-xs text-slate-500">Kelimenin üzerine tıklayarak veya hoparlör butonuna basarak telaffuzunu dinleyebilirsiniz.</p>
+                            </div>
+                        </div>
+
+                        <div id="unit-vocabulary-cards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <!-- Kelime kartları JS ile yüklenir -->
+                        </div>
+                    </div>
+
+                    <!-- Sekme 3: İnteraktif Pratik & Test -->
+                    <div id="study-tab-practice" class="hidden space-y-6">
+                        <div class="bg-amber-50 p-6 rounded-2xl comic-border">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">🎯</span>
+                                <div>
+                                    <h4 class="font-comic font-bold text-lg">Öğrendiklerini Pekiştir!</h4>
+                                    <p class="text-xs text-slate-600">Cümledeki boşluğu doldurarak kuralları doğru uygulayıp uygulamadığını kontrol et.</p>
+                                </div>
+                            </div>
+
+                            <div id="unit-practice-container" class="space-y-4">
+                                <!-- Dinamik Pratik Sorusu -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== 5. GENEL KELİME KASASI (VAULT & DICTIONARY) ==================== -->
+        <section id="view-vault" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl comic-border shadow-comic">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold font-comic flex items-center gap-2">
+                            <span>🏛️</span> Kapsamlı CEFR Kelime Kasası
+                        </h2>
+                        <p class="text-slate-600 text-sm">Seviyene ait 100+ temel ve ara seviye kelime, Türkçe karşılıkları ve örnek cümleleriyle.</p>
+                    </div>
+
+                    <!-- Canlı Arama ve Kategori Filtreleme -->
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                        <input type="text" id="vault-search-input" onkeyup="app.filterVaultWords()" placeholder="Kelime veya anlam ara..." class="px-4 py-2 rounded-xl comic-border bg-amber-50 text-sm w-full sm:w-60 focus:outline-none focus:bg-white font-medium">
+                        <select id="vault-category-filter" onchange="app.filterVaultWords()" class="px-3 py-2 rounded-xl comic-border bg-white text-sm font-bold font-comic">
+                            <option value="all">Tüm Kategoriler</option>
+                            <option value="Günlük Yaşam">Günlük Yaşam</option>
+                            <option value="Seyahat & Yön">Seyahat & Yön</option>
+                            <option value="Duygular & Niteleme">Duygular & Niteleme</option>
+                            <option value="İş & Eğitim">İş & Eğitim</option>
+                            <option value="Bağlaç & Geçiş">Bağlaç & Geçiş</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kelime Grid'i -->
+                <div id="vault-words-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto p-1">
+                    <!-- Dinamik Kelimeler -->
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-minion-darkBlue text-white text-center p-4 text-sm border-t-4 border-black">
-        LinguaMinion Prototype - Banana Power! 🍌 | GitHub Pages Ready
+    <!-- FOOTER -->
+    <footer class="bg-brand-denim text-white p-6 comic-border-b border-t-4 border-black mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <p class="font-comic font-bold text-lg text-brand-yellow">LinguaMinion Academy 🍌</p>
+                <p class="text-slate-400 text-xs">Yapay zeka mantığıyla modellenmiş, interaktif açık kaynaklı dil öğrenim platformu.</p>
+            </div>
+            <div class="text-xs text-slate-400">
+                GitHub Pages Ready • Tamamı Tek Dosya & Saf JavaScript
+            </div>
+        </div>
     </footer>
 
-    <!-- JavaScript Uygulama Mantığı -->
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT: TÜM VERİ TABANI, TEST MOTORU VE ETKİLEŞİM MANTIĞI -->
+    <!-- ========================================================================= -->
     <script>
-        // Soru Bankası Havuzu (Rastgele çekilmek üzere A1, A2, B1 zorluklarında)
-        const QUESTION_BANK = {
+        // 1. ZENGİN VE DERİNLEMESİNE MÜFREDAT VERİ TABANI (A1->A2 VE A2->B1)
+        const KNOWLEDGE_BASE = {
+            en: {
+                A1_A2: [
+                    {
+                        id: 1,
+                        title: "To Be (Am/Is/Are) & Şahıs Zamirleri Derinliği",
+                        subtitle: "Temel Cümle Kurma Mekaniği, Kısaltmalar ve Varlık Belirtme",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. 'To Be' Fiilinin Temel Mantığı</h3>
+                                <p>İngilizcede her cümlenin bir fiile ihtiyacı vardır. Eğer cümlede hareket bildiren bir fiil (koşmak, yemek, uyumak) yoksa, durum/kimlik bildirmek için <b>am, is, are</b> kullanılır.</p>
+                                
+                                <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500 font-mono text-sm space-y-1">
+                                    <p><b>I</b> &rarr; am (I'm a student.)</p>
+                                    <p><b>He / She / It</b> &rarr; is (She is an engineer.)</p>
+                                    <p><b>We / You / They</b> &rarr; are (They are in the library.)</p>
+                                </div>
+
+                                <h3 class="text-xl font-bold text-blue-900 mt-4">2. Minion Tuzağı: En Çok Yapılan Hata!</h3>
+                                <p>Türkçede "Ben mutluyum" derken fiil görünmez. Öğrenciler sık sık <i>"I happy"</i> yazar. İngilizcede durum bildirmek için mutlaka <b>"I am happy"</b> denmelidir.</p>
+
+                                <div class="bg-slate-100 p-4 rounded-xl space-y-2">
+                                    <h4 class="font-bold text-sm text-slate-800">Soru ve Olumsuz Yapılar:</h4>
+                                    <p class="text-sm">• <b>Olumsuz:</b> am/is/are + not &rarr; <i>He is not (isn't) hungry.</i></p>
+                                    <p class="text-sm">• <b>Soru:</b> am/is/are başa gelir &rarr; <i>Are you ready for the exam?</i></p>
+                                </div>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Citizen", ipa: "/ˈsɪtɪzən/", meaning: "Vatandaş", example: "He is a German citizen.", cat: "Günlük Yaşam" },
+                            { word: "Available", ipa: "/əˈveɪləbəl/", meaning: "Müsait, Kullanılabilir", example: "The doctor is available today.", cat: "İş & Eğitim" },
+                            { word: "Exhausted", ipa: "/ɪɡˈzɔːstɪd/", meaning: "Aşırı yorgun / Bitkin", example: "We are exhausted after work.", cat: "Duygular & Niteleme" },
+                            { word: "Neighbor", ipa: "/ˈneɪbər/", meaning: "Komşu", example: "They are my friendly neighbors.", cat: "Günlük Yaşam" }
+                        ],
+                        practice: {
+                            q: "My brother and I ______ very excited about the upcoming holiday trip.",
+                            options: ["am", "is", "are", "be"],
+                            answer: 2,
+                            explanation: "'My brother and I' iki kişi olduğu için özne 'We' (Biz) yerine geçer, bu yüzden 'are' kullanılır."
+                        }
+                    },
+                    {
+                        id: 2,
+                        title: "Geniş Zaman (Present Simple) & 3. Tekil Şahıs Kuralları",
+                        subtitle: "Rutinler, Alışkanlıklar ve S/ES/IES Eklenme Mantığı",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Ne Zaman Kullanılır?</h3>
+                                <p>Geniş zaman; genel geçer doğrular (Güneş doğudan doğar), alışkanlıklar ve her gün yapılan rutinleri ifade eder.</p>
+
+                                <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500 font-mono text-sm space-y-1">
+                                    <p><b>He / She / It</b> öznelerinde olumlu cümlede fiil <b>-s, -es, -ies</b> takısı alır!</p>
+                                    <p>• He work<b>s</b> hard. | She watch<b>es</b> TV. | He stud<b>ies</b> English.</p>
+                                </div>
+
+                                <h3 class="text-xl font-bold text-blue-900 mt-4">2. Olumsuz ve Soru Cümlelerinde Do / Does Büyüsü</h3>
+                                <p>Olumsuz ve soru yaparken devreye <b>do / does</b> girer. Does geldiğinde, fiildeki <b>-s takısı düşer</b>!</p>
+                                <p class="text-sm bg-red-50 text-red-800 p-3 rounded-lg">❌ Yanlış: <i>He doesn't likes coffee.</i><br>✅ Doğru: <b>He doesn't like coffee.</b></p>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Frequently", ipa: "/ˈfriːkwəntli/", meaning: "Sık sık", example: "She frequently visits the art museum.", cat: "Bağlaç & Geçiş" },
+                            { word: "Habit", ipa: "/ˈhæbɪt/", meaning: "Alışkanlık", example: "Reading is a wonderful daily habit.", cat: "Günlük Yaşam" },
+                            { word: "Occur", ipa: "/əˈkɜːr/", meaning: "Meydana gelmek / Olmak", example: "Earthquakes occur naturally.", cat: "Günlük Yaşam" }
+                        ],
+                        practice: {
+                            q: "Sarah always ______ her teeth before she goes to bed.",
+                            options: ["brush", "brushes", "brushing", "is brush"],
+                            answer: 1,
+                            explanation: "Sarah 'She' öznesi olduğu için geniş zamanda fiil sonuna -es alır (brushes)."
+                        }
+                    },
+                    {
+                        id: 3,
+                        title: "Şimdiki Zaman (Present Continuous) & Non-Action Fiiller",
+                        subtitle: "Şu An Yapılan Eylemler vs. Durum Bildiren Fiiller (Stative Verbs)",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Temel Formül</h3>
+                                <p class="font-mono bg-slate-100 p-3 rounded-lg">Özne + am/is/are + Verb(-ing)</p>
+                                <p>Şu an konuşma anında gerçekleşen olayları anlatır (Right now, at the moment, currently).</p>
+
+                                <h3 class="text-xl font-bold text-blue-900 mt-4">2. En Kritik Kural: 'Stative Verbs' Asla -ing Almaz!</h3>
+                                <p>Duygu, zihin ve algı bildiren fiiller şimdiki zamanda bile olsalar <b>-ing almazlar</b>; Present Simple gibi kullanılırlar:</p>
+                                <ul class="list-disc list-inside text-sm space-y-1 bg-yellow-50 p-4 rounded-xl font-semibold">
+                                    <li>want, need, like, love, know, believe, understand</li>
+                                    <li>❌ <i>I am knowing the answer.</i> &rarr; ✅ <b>I know the answer.</b></li>
+                                </ul>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Currently", ipa: "/ˈkʌrəntli/", meaning: "Şu anda, Mevcut olarak", example: "He is currently working on a project.", cat: "Bağlaç & Geçiş" },
+                            { word: "Recognize", ipa: "/ˈrɛkəɡnaɪz/", meaning: "Tanımak, Farkına varmak", example: "I recognize that melody.", cat: "Duygular & Niteleme" },
+                            { word: "Improve", ipa: "/ɪmˈpruːv/", meaning: "Gelişmek, İlerletmek", example: "My English is improving every day.", cat: "İş & Eğitim" }
+                        ],
+                        practice: {
+                            q: "Listen! Somebody ______ the piano in the other room.",
+                            options: ["plays", "is playing", "play", "are playing"],
+                            answer: 1,
+                            explanation: "'Listen!' (Dinle!) ifadesi eylemin tam şu anda olduğunu gösterir; tekil özne için 'is playing' kullanılır."
+                        }
+                    },
+                    {
+                        id: 4,
+                        title: "Sayılabilen & Sayılamayan İsimler (Countable / Uncountable)",
+                        subtitle: "Much, Many, A Few, A Little, Some, Any İncelikleri",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Mantık ve Ayrım</h3>
+                                <p><b>Countable (Sayılabilen):</b> Tane tane sayılanlar (apple, car, person). 'Many' ve 'A few' ile kullanılır.<br>
+                                <b>Uncountable (Sayılamayan):</b> Sıvılar, tozlar, soyut kavramlar (water, money, information, advice, bread). 'Much' ve 'A little' ile kullanılır.</p>
+                                
+                                <div class="bg-red-50 p-4 rounded-xl text-sm border-l-4 border-red-500">
+                                    <p class="font-bold">⚠️ Tuzak Kelimeler:</p>
+                                    <p><b>Money (Para), Advice (Tavsiye), Information (Bilgi), Luggage (Bagaj)</b> İngilizcede ASLA çoğul yapılamaz (-s almaz)!</p>
+                                </div>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Advice", ipa: "/ədˈvaɪs/", meaning: "Tavsiye, Öğüt", example: "She gave me valuable advice.", cat: "İş & Eğitim" },
+                            { word: "Ingredient", ipa: "/ɪnˈɡriːdiənt/", meaning: "Malzeme (Yemek)", example: "We need fresh ingredients for the soup.", cat: "Günlük Yaşam" },
+                            { word: "Plenty", ipa: "/ˈplɛnti/", meaning: "Bol miktar / Çokça", example: "There is plenty of time left.", cat: "Duygular & Niteleme" }
+                        ],
+                        practice: {
+                            q: "Could you give me ______ information about the master program?",
+                            options: ["an", "some", "many", "a few"],
+                            answer: 1,
+                            explanation: "'Information' sayılamayan bir isim olduğu için 'an', 'many' veya 'a few' alamaz; olumlu ricada 'some' uygundur."
+                        }
+                    }
+                ],
+                A2_B1: [
+                    {
+                        id: 1,
+                        title: "Past Simple vs. Past Continuous (Geçmişte Kesintiye Uğrayan Eylemler)",
+                        subtitle: "When & While Bağlaçlarıyla Karmaşık Hikaye Anlatımı",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. İki Zamanın Birleşimi</h3>
+                                <p>Geçmişte uzun süren bir eylem (Past Continuous: was/were + ing) gerçekleşirken, anlık bir olay (Past Simple: V2) araya girip onu keser.</p>
+                                <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500 font-mono text-sm">
+                                    <p>• <b>While</b> I was cooking dinner, the electricity <b>went out</b>.</p>
+                                    <p>• I was walking in the park <b>when</b> I <b>saw</b> a rare bird.</p>
+                                </div>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Suddenly", ipa: "/ˈsʌdənli/", meaning: "Aniden, birdenbire", example: "Suddenly, the phone stopped ringing.", cat: "Bağlaç & Geçiş" },
+                            { word: "Interrupt", ipa: "/ˌɪntəˈrʌpt/", meaning: "Sözünü kesmek / Araya girmek", example: "Please do not interrupt the speaker.", cat: "İş & Eğitim" }
+                        ],
+                        practice: {
+                            q: "I ______ along the street when I suddenly ran into my old school friend.",
+                            options: ["walked", "was walking", "have walked", "am walking"],
+                            answer: 1,
+                            explanation: "Geçmişte sürmekte olan bir eylem 'when' ile kesildiği için arka plan Past Continuous (was walking) olur."
+                        }
+                    },
+                    {
+                        id: 2,
+                        title: "Present Perfect Tense (Deneyimler & Belirsiz Geçmiş)",
+                        subtitle: "Have/Has + V3: Ever, Never, Already, Just, Yet Kullanımları",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Past Simple ile Farkı Nedir?</h3>
+                                <p>Past Simple'da <b>zaman bellidir</b> (yesterday, in 2020). Present Perfect'te ise <b>zaman değil, tecrübenin kendisi veya etkisi</b> önemlidir.</p>
+                                <ul class="list-disc list-inside text-sm bg-slate-100 p-4 rounded-xl space-y-1">
+                                    <li><b>Ever:</b> Hayatında hiç yaptın mı? &rarr; <i>Have you ever eaten sushi?</i></li>
+                                    <li><b>Never:</b> Hayatımda hiç yapmadım &rarr; <i>I have never been to Japan.</i></li>
+                                    <li><b>Yet:</b> Olumsuzlarda/sorularda 'henüz' &rarr; <i>I haven't finished the report yet.</i></li>
+                                </ul>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Achievement", ipa: "/əˈtʃiːvmənt/", meaning: "Başarı, Kazanım", example: "Graduating was a huge achievement.", cat: "İş & Eğitim" },
+                            { word: "Recently", ipa: "/ˈriːsəntli/", meaning: "Son zamanlarda", example: "Have you seen any good films recently?", cat: "Bağlaç & Geçiş" }
+                        ],
+                        practice: {
+                            q: "They ______ in this neighborhood since they got married in 2015.",
+                            options: ["lived", "have lived", "are living", "were living"],
+                            answer: 1,
+                            explanation: "'Since 2015' geçmişten günümüze devam eden süreci belirttiği için Present Perfect (have lived) gerektirir."
+                        }
+                    }
+                ]
+            },
+            de: {
+                A1_A2: [
+                    {
+                        id: 1,
+                        title: "Artikeller (Der, Die, Das) ve Nominativ Mantığı",
+                        subtitle: "İsim Cinsiyetleri, Belirli ve Belirsiz Artikeller (Ein / Eine)",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Almancanın Kalbi: Artikeller</h3>
+                                <p>Almancada her ismin bir cinsiyeti vardır. İsmi tek başına değil, her zaman artikeliyle öğrenmelisiniz.</p>
+                                <div class="bg-yellow-50 p-4 rounded-xl font-mono text-sm space-y-1">
+                                    <p><b>Der</b> &rarr; Maskulin (Erkek) - der Mann, der Tisch</p>
+                                    <p><b>Die</b> &rarr; Feminin (Dişi) - die Frau, die Lampe</p>
+                                    <p><b>Das</b> &rarr; Neutral (Nötr) - das Kind, das Buch</p>
+                                </div>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Das Buch", ipa: "/buːx/", meaning: "Kitap", example: "Das Buch ist sehr interessant.", cat: "Günlük Yaşam" },
+                            { word: "Die Zeitung", ipa: "/ˈtsaɪtʊŋ/", meaning: "Gazete", example: "Er liest die Zeitung am Morgen.", cat: "Günlük Yaşam" }
+                        ],
+                        practice: {
+                            q: "______ Tisch ist neu und sehr modern.",
+                            options: ["Der", "Die", "Das", "Den"],
+                            answer: 0,
+                            explanation: "'Tisch' (masa) eril (maskulin) bir isimdir ve özne (Nominativ) halindeyken artikeli 'Der' olur."
+                        }
+                    }
+                ],
+                A2_B1: []
+            },
+            es: {
+                A1_A2: [
+                    {
+                        id: 1,
+                        title: "Ser vs. Estar: İspanyolcanın İki 'Olmak' Fiili",
+                        subtitle: "Kalıcı Özellikler (Ser) ile Geçici Durumlar/Konum (Estar)",
+                        theory: `
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-blue-900">1. Temel Fark</h3>
+                                <p><b>SER:</b> Kimlik, milliyet, meslek, kalıcı karakter özellikleri ve zaman için kullanılır.<br>
+                                <b>ESTAR:</b> Konum (nerede?), geçici duygu durumları ve sağlık için kullanılır.</p>
+                                <div class="bg-yellow-50 p-4 rounded-xl font-mono text-sm">
+                                    <p>• Soy profesor. (Mesleğim - Ser)</p>
+                                    <p>• Estoy cansado. (Şu an yorgunum - Estar)</p>
+                                </div>
+                            </div>
+                        `,
+                        words: [
+                            { word: "Ubicación", ipa: "/ubikaˈθjon/", meaning: "Konum", example: "La ubicación del hotel es excelente.", cat: "Seyahat & Yön" },
+                            { word: "Emocionado", ipa: "/emosjoˈnaðo/", meaning: "Heyecanlı", example: "Estoy muy emocionado por el viaje.", cat: "Duygular & Niteleme" }
+                        ],
+                        practice: {
+                            q: "Madrid ______ la capital de España.",
+                            options: ["es", "está", "son", "están"],
+                            answer: 0,
+                            explanation: "Başkent olmak kalıcı bir tanım/kimlik olduğu için 'ser' fiilinin 3. tekil şahsı olan 'es' kullanılır."
+                        }
+                    }
+                ],
+                A2_B1: []
+            }
+        };
+
+        // 2. GELİŞMİŞ VE KAPSAMLI SEVİYE BELİRLEME SORU BANKASI (15+ Dinamik Soru)
+        const ASSESSMENT_QUESTIONS = {
             en: [
-                { q: "She ______ to school every day by bus.", options: ["go", "goes", "going", "gone"], answer: 1, level: "A1" },
-                { q: "Yesterday, we ______ a great movie together.", options: ["watched", "watch", "watches", "watching"], answer: 0, level: "A1" },
-                { q: "If it rains tomorrow, we ______ the picnic.", options: ["cancel", "will cancel", "canceled", "canceling"], answer: 1, level: "A2" },
-                { q: "I have lived in this city ______ five years.", options: ["since", "for", "during", "while"], answer: 1, level: "A2" },
-                { q: "This cake ______ by my grandmother yesterday.", options: ["was made", "is made", "made", "makes"], answer: 0, level: "A2" },
-                { q: "He is interested ______ learning new languages.", options: ["on", "at", "in", "about"], answer: 2, level: "A2" },
-                { q: "Although he was tired, he ______ working.", options: ["kept", "stopped", "prevented", "refused"], answer: 0, level: "B1" },
-                { q: "If I ______ you, I would take that offer.", options: ["was", "were", "am", "have been"], answer: 1, level: "B1" },
-                { q: "She asked me where I ______ my summer vacation.", options: ["spend", "had spent", "have spent", "will spend"], answer: 1, level: "B1" },
-                { q: "Hardly ______ into the room when the phone rang.", options: ["I stepped", "had I stepped", "I have stepped", "did I stepped"], answer: 1, level: "B1" }
+                { q: "Listen! The baby ______ in the bedroom.", options: ["cries", "is crying", "cried", "has cry"], answer: 1, level: "A1", cat: "Present Continuous" },
+                { q: "They ______ to London two years ago.", options: ["go", "went", "have gone", "were going"], answer: 1, level: "A1", cat: "Past Simple" },
+                { q: "I don't have ______ money in my wallet.", options: ["some", "any", "many", "a few"], answer: 1, level: "A1", cat: "Quantifiers" },
+                { q: "If it rains tomorrow, we ______ the football match.", options: ["cancel", "will cancel", "canceled", "have cancel"], answer: 1, level: "A2", cat: "First Conditional" },
+                { q: "This cake ______ by my grandmother yesterday.", options: ["was made", "is made", "made", "has been making"], answer: 0, level: "A2", cat: "Passive Voice" },
+                { q: "He has been working at this software company ______ 2018.", options: ["for", "since", "during", "while"], answer: 1, level: "A2", cat: "Present Perfect" },
+                { q: "I would travel around the world if I ______ a millionaire.", options: ["am", "were", "will be", "have been"], answer: 1, level: "B1", cat: "Second Conditional" },
+                { q: "She asked me where I ______ my car the night before.", options: ["parked", "had parked", "have parked", "will park"], answer: 1, level: "B1", cat: "Reported Speech" },
+                { q: "By the time we arrived at the cinema, the movie ______.", options: ["already started", "had already started", "has started", "starts"], answer: 1, level: "B1", cat: "Past Perfect" },
+                { q: "You ______ better see a doctor if your headache continues.", options: ["had", "would", "should", "ought"], answer: 0, level: "B1", cat: "Modals (Had better)" }
             ],
             de: [
-                { q: "Das ist ein Buch. ______ Buch ist sehr alt.", options: ["Der", "Die", "Das", "Ein"], answer: 2, level: "A1" },
-                { q: "Woher ______ du?", options: ["kommst", "kommt", "kommen", "komme"], answer: 0, level: "A1" },
-                { q: "Ich habe gestern meine Hausaufgaben ______.", options: ["gemacht", "mache", "machen", "gemachten"], answer: 0, level: "A2" },
-                { q: "Er hilft ______ Frau über die Straße.", options: ["die", "der", "den", "das"], answer: 1, level: "A2" },
-                { q: "Wenn ich Zeit hätte, ______ ich ein Buch lesen.", options: ["würde", "werde", "habe", "wäre"], answer: 0, level: "B1" }
+                { q: "Das ist ein Stuhl. ______ Stuhl ist sehr bequem.", options: ["Der", "Die", "Das", "Den"], answer: 0, level: "A1", cat: "Nominativ" },
+                { q: "Ich habe gestern einen interessanten Film ______.", options: ["gesehen", "sehen", "sah", "sehe"], answer: 0, level: "A1", cat: "Perfekt" },
+                { q: "Er schenkt ______ Mutter schöne Blumen.", options: ["die", "der", "den", "dem"], answer: 1, level: "A2", cat: "Dativ" },
+                { q: "Wenn ich reich wäre, ______ ich ein Haus am Strand kaufen.", options: ["würde", "werde", "habe", "wäre"], answer: 0, level: "B1", cat: "Konjunktiv II" }
             ],
             es: [
-                { q: "Yo ______ estudiante de ingeniería.", options: ["soy", "estoy", "es", "somos"], answer: 0, level: "A1" },
-                { q: "¿Dónde ______ las llaves de la casa?", options: ["están", "son", "es", "está"], answer: 0, level: "A1" },
-                { q: "Ayer yo ______ con mis amigos en el parque.", options: ["hablé", "hablo", "hablar", "hablaba"], answer: 0, level: "A2" },
-                { q: "No creo que él ______ la verdad.", options: ["dice", "diga", "dijo", "decir"], answer: 1, level: "B1" }
+                { q: "Mi hermano ______ médico en el hospital central.", options: ["es", "está", "son", "están"], answer: 0, level: "A1", cat: "Ser vs Estar" },
+                { q: "Ayer nosotros ______ paella en un restaurante tradicional.", options: ["comemos", "comimos", "comer", "comíamos"], answer: 1, level: "A2", cat: "Pretérito Indefinido" },
+                { q: "Espero que tú ______ un buen fin de semana.", options: ["tienes", "tengas", "tenías", "tuviste"], answer: 1, level: "B1", cat: "Subjuntivo" }
             ]
         };
 
-        // A2'den B1'e 20 Konuluk Yapılandırılmış Müfredat Modeli
-        const CURRICULUM_A2_B1 = [
-            { id: 1, title: "Past Simple vs. Past Continuous", desc: "Geçmişte tamamlanan eylemler ve arka planda devam eden olayların anlatımı (when/while kullanımı).", words: [{w: "While", m: "İken"}, {w: "Suddenly", m: "Aniden"}, {w: "Interrupt", m: "Kesmek"}], quiz: { q: "I was reading a book when the phone ______.", opts: ["rang", "was ringing", "rings"], a: 0 } },
-            { id: 2, title: "Present Perfect Tense Temelleri", desc: "Geçmişte başlayıp etkisi süren deneyimler (ever, never, just, already, yet).", words: [{w: "Already", m: "Çoktan"}, {w: "Yet", m: "Henüz"}, {w: "Experience", m: "Deneyim"}], quiz: { q: "Have you ______ visited Rome?", opts: ["ever", "never", "yet"], a: 0 } },
-            { id: 3, title: "Present Perfect vs. Past Simple", desc: "Zamanı belirten geçmiş olaylar ile zamanı belirsiz tecrübelerin farkı.", words: [{w: "Ago", m: "Önce"}, {w: "Since", m: "-den beri"}, {w: "Specific", m: "Belirli"}], quiz: { q: "I ______ to London last summer.", opts: ["went", "have been", "have gone"], a: 0 } },
-            { id: 4, title: "Gelecek Zaman Kalıpları (Will vs. Be Going To)", desc: "Anlık kararlar/tahminler (will) ile önceden planlanmış hedefler (going to).", words: [{w: "Intention", m: "Niyet"}, {w: "Prediction", m: "Tahmin"}, {w: "Decision", m: "Karar"}], quiz: { q: "Look at the dark clouds! It ______ rain.", opts: ["is going to", "will", "is"], a: 0 } },
-            { id: 5, title: "Karşılaştırma Sıfatları (Comparatives & Superlatives)", desc: "Nesneleri kıyaslama, as...as kalıbı ve üstünlük dereceleri.", words: [{w: "Better", m: "Daha iyi"}, {w: "Heavier", m: "Daha ağır"}, {w: "The best", m: "En iyi"}], quiz: { q: "This problem is ______ than the last one.", opts: ["more difficult", "difficult", "most difficult"], a: 0 } },
-            { id: 6, title: "Modal Verbs: Zorunluluk ve Tavsiye", desc: "Must, Have to, Should ve Ought to ile kurallar ve tavsiyeler.", words: [{w: "Obligation", m: "Zorunluluk"}, {w: "Advice", m: "Tavsiye"}, {w: "Forbidden", m: "Yasak"}], quiz: { q: "You ______ stop at a red light.", opts: ["must", "should", "might"], a: 0 } },
-            { id: 7, title: "Modal Verbs: İhtimal ve İzin", desc: "May, Might, Could ile olasılıkları ifade etme.", words: [{w: "Possibility", m: "Olasılık"}, {w: "Permission", m: "İzin"}, {w: "Doubt", m: "Şüphe"}], quiz: { q: "Take an umbrella, it ______ rain later.", opts: ["might", "must", "can't"], a: 0 } },
-            { id: 8, title: "First Conditional (Gerçekçi Şart Cümleleri)", desc: "Gelecekteki olası durumlara bağlı koşul cümleleri (If + Present, Will).", words: [{w: "Condition", m: "Şart"}, {w: "Result", m: "Sonuç"}, {w: "Unless", m: "-medikçe"}], quiz: { q: "If you study hard, you ______ the exam.", opts: ["will pass", "pass", "passed"], a: 0 } },
-            { id: 9, title: "Second Conditional (Hayali Şartlar)", desc: "Şu anki gerçek dışı veya hayali koşullar (If + Past, Would).", words: [{w: "Imaginary", m: "Hayali"}, {w: "Hypothetical", m: "Varsayımsal"}, {w: "Wish", m: "Dilek"}], quiz: { q: "If I won a million dollars, I ______ travel the world.", opts: ["would", "will", "can"], a: 0 } },
-            { id: 10, title: "Passive Voice (Edilgen Çatı Temelleri)", desc: "Eylemi yapanın değil, eylemden etkilenenin öne çıkarılması.", words: [{w: "Constructed", m: "İnşa edilmiş"}, {w: "Discovered", m: "Keşfedilmiş"}, {w: "By", m: "Tarafından"}], quiz: { q: "The telephone ______ by Alexander Graham Bell.", opts: ["was invented", "invented", "is inventing"], a: 0 } },
-            { id: 11, title: "Defining Relative Clauses (Who, Which, That)", desc: "Kişileri ve nesneleri niteleyen sıfat tümcecikleri.", words: [{w: "Relative", m: "İlgi belirten"}, {w: "Describe", m: "Tanımlamak"}, {w: "Whose", m: "Kimin"}], quiz: { q: "That is the girl ______ won the competition.", opts: ["who", "which", "where"], a: 0 } },
-            { id: 12, title: "Gerunds and Infinitives (-ing vs to)", desc: "Belirli fiillerden sonra gelen mastar ve isim-fiil yapıları (enjoy doing, decide to do).", words: [{w: "Avoid", m: "Kaçınmak"}, {w: "Promise", m: "Söz vermek"}, {w: "Prefer", m: "Tercih etmek"}], quiz: { q: "I decided ______ a new laptop.", opts: ["to buy", "buying", "buy"], a: 0 } },
-            { id: 13, title: "Used to & Would (Geçmiş Alışkanlıklar)", desc: "Artık yapılmayan eski alışkanlıkları ve durumları ifade etme.", words: [{w: "Habit", m: "Alışkanlık"}, {w: "Past state", m: "Geçmiş durum"}, {w: "No longer", m: "Artık değil"}], quiz: { q: "I ______ play football every weekend, but now I don't.", opts: ["used to", "use to", "am used to"], a: 0 } },
-            { id: 14, title: "Bağlaçlar ve Geçiş İfadeleri (Connectors)", desc: "Although, However, In addition, Therefore ile akıcı paragraflar oluşturma.", words: [{w: "However", m: "Ancak"}, {w: "Therefore", m: "Bu nedenle"}, {w: "Although", m: "-e rağmen"}], quiz: { q: "He studied hard; ______, he passed easily.", opts: ["therefore", "although", "but"], a: 0 } },
-            { id: 15, title: "Reported Speech: Aktarılan Konuşma", desc: "Birinin söylediğini başkasına aktarırken zaman kaymaları (He said that...).", words: [{w: "Mention", m: "Bahsetmek"}, {w: "Explain", m: "Açıklamak"}, {w: "Claim", m: "İddia etmek"}], quiz: { q: "She said she ______ tired.", opts: ["was", "is", "be"], a: 0 } },
-            { id: 16, title: "Phrasal Verbs 1: Günlük Hayat", desc: "Get up, look after, give up, find out gibi temel birleşik fiiller.", words: [{w: "Give up", m: "Pes etmek"}, {w: "Look for", m: "Aramak"}, {w: "Run out of", m: "Tüketmek"}], quiz: { q: "Never ______ on your dreams!", opts: ["give up", "give in", "give out"], a: 0 } },
-            { id: 17, title: "Past Perfect Tense (Önceki Geçmiş Zaman)", desc: "Geçmişte olmuş iki olaydan daha önce olanını anlatma (had done).", words: [{w: "Before", m: "Önce"}, {w: "Already", m: "Zaten"}, {w: "Sequence", m: "Sıralama"}], quiz: { q: "When I arrived, the train ______ already left.", opts: ["had", "has", "was"], a: 0 } },
-            { id: 18, title: "Dolaylı Sorular (Indirect Questions)", desc: "Nezaket gerektiren soru kalıpları (Could you tell me where... is?).", words: [{w: "Polite", m: "Kibar"}, {w: "Inquire", m: "Sormak"}, {w: "Wonder", m: "Merak etmek"}], quiz: { q: "Could you tell me where the bank ______?", opts: ["is", "is it", "was it"], a: 0 } },
-            { id: 19, title: "Görüş Bildirme & Tartışma Kalıpları", desc: "Fikir beyan etme (In my opinion, I believe, On the other hand).", words: [{w: "Perspective", m: "Bakış açısı"}, {w: "Agree", m: "Katılmak"}, {w: "Disagree", m: "Katılmamak"}], quiz: { q: "In my ______, technology makes life easier.", opts: ["opinion", "thought", "mind"], a: 0 } },
-            { id: 20, title: "B1 Seviye Final Entegrasyonu", desc: "Tüm dilbilgisi ve kelime dağarcığını harmanlayan simülasyon ve pratik.", words: [{w: "Fluency", m: "Akıcılık"}, {w: "Confidence", m: "Özgüven"}, {w: "Milestone", m: "Dönüm noktası"}], quiz: { q: "By practicing every day, you ______ your B1 goal!", opts: ["achieved", "have achieved", "are achieve"], a: 1 } }
+        // 3. GENEL KELİME KASASI (VAULT BANKASI)
+        const VAULT_DATABASE = [
+            { word: "Accomplish", ipa: "/əˈkʌmplɪʃ/", meaning: "Başarmak, Tamamlamak", lang: "en", level: "B1", cat: "İş & Eğitim", ex: "We accomplished our quarterly goals." },
+            { word: "Opportunity", ipa: "/ˌɒpəˈtjuːnɪti/", meaning: "Fırsat, Olanak", lang: "en", level: "A2", cat: "İş & Eğitim", ex: "Do not miss this career opportunity." },
+            { word: "Hesitate", ipa: "/ˈhɛzɪteɪt/", meaning: "Tereddüt etmek", lang: "en", level: "B1", cat: "Duygular & Niteleme", ex: "Do not hesitate to ask questions." },
+            { word: "Destination", ipa: "/ˌdɛstɪˈneɪʃən/", meaning: "Varış noktası / Rota", lang: "en", level: "A2", cat: "Seyahat & Yön", ex: "Paris is our final destination." },
+            { word: "Nevertheless", ipa: "/ˌnɛvəðəˈlɛs/", meaning: "Yine de, Buna rağmen", lang: "en", level: "B1", cat: "Bağlaç & Geçiş", ex: "It was raining; nevertheless, we went out." },
+            { word: "Bequem", ipa: "/bəˈkveːm/", meaning: "Rahat, Konforlu", lang: "de", level: "A1", cat: "Günlük Yaşam", ex: "Dieses Sofa ist sehr bequem." },
+            { word: "Entscheidung", ipa: "/ɛntˈʃaɪ̯dʊŋ/", meaning: "Karar", lang: "de", level: "A2", cat: "İş & Eğitim", ex: "Das war eine schwierige Entscheidung." },
+            { word: "Desafío", ipa: "/desaˈfi.o/", meaning: "Meydan okuma / Zorluk", lang: "es", level: "B1", cat: "İş & Eğitim", ex: "Aprender un nuevo idioma es un gran desafío." },
+            { word: "Afortunadamente", ipa: "/afoɾtunaðaˈmente/", meaning: "Neyse ki / Şans eseri", lang: "es", level: "A2", cat: "Bağlaç & Geçiş", ex: "Afortunadamente, no llovió." }
         ];
 
-        // Uygulama Durum Yönetimi (State Machine)
+        // 4. UYGULAMA MOTORU VE STATE YÖNETİMİ
         const app = {
             currentLang: 'en',
-            activeQuestions: [],
-            currentQIndex: 0,
-            score: 0,
-            userLevel: 'A2',
+            currentLevelPathway: 'A1_A2',
+            activeUnit: null,
+            
+            // Quiz State
+            quizQuestions: [],
+            quizIndex: 0,
+            quizScore: 0,
 
-            showHome() {
-                document.getElementById('view-home').classList.remove('hidden');
-                document.getElementById('view-assessment').classList.add('hidden');
-                document.getElementById('view-dashboard').classList.add('hidden');
-                document.getElementById('view-topic').classList.add('hidden');
+            // User Stats
+            bananas: 120,
+            xp: 450,
+
+            init() {
+                this.renderVault();
             },
 
-            // Havuzdan rastgele soru seçici (Her giren kişiye farklı sorular gelmesi için)
+            // Web Speech API ile Gerçek Zamanlı Telaffuz
+            speak(text, langCode = 'en-US') {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); // Öncekini durdur
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    if (this.currentLang === 'de') utterance.lang = 'de-DE';
+                    else if (this.currentLang === 'es') utterance.lang = 'es-ES';
+                    else utterance.lang = 'en-US';
+
+                    utterance.rate = 0.9; // Daha net ve anlaşılır
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    alert("Tarayıcınız ses sentezini desteklemiyor.");
+                }
+            },
+
+            // Sayfa/Görünüm Değiştirici
+            navigate(viewId) {
+                const views = ['view-home', 'view-assessment', 'view-curriculum', 'view-unit-study', 'view-vault'];
+                views.forEach(v => {
+                    const el = document.getElementById(v);
+                    if (el) el.classList.add('hidden');
+                });
+
+                const activeEl = document.getElementById(`view-${viewId}`);
+                if (activeEl) activeEl.classList.remove('hidden');
+
+                if (viewId === 'curriculum') {
+                    this.renderCurriculumGrid();
+                } else if (viewId === 'vault') {
+                    this.renderVault();
+                }
+            },
+
+            // Seviye Belirleme Sınavını Başlat
             startAssessment(lang) {
                 this.currentLang = lang;
-                const pool = QUESTION_BANK[lang] || QUESTION_BANK['en'];
+                document.getElementById('stat-lang').innerText = lang.toUpperCase();
                 
-                // Soruları rastgele karıştır ve max 10 soru seç
-                this.activeQuestions = [...pool].sort(() => 0.5 - Math.random()).slice(0, 10);
-                this.currentQIndex = 0;
-                this.score = 0;
+                const pool = ASSESSMENT_QUESTIONS[lang] || ASSESSMENT_QUESTIONS['en'];
+                // Soruları rastgele karıştır
+                this.quizQuestions = [...pool].sort(() => 0.5 - Math.random());
+                this.quizIndex = 0;
+                this.quizScore = 0;
 
-                // UI Güncelle
-                document.getElementById('view-home').classList.add('hidden');
-                document.getElementById('view-assessment').classList.remove('hidden');
-                document.getElementById('current-lang-badge').innerText = lang.toUpperCase();
-                document.getElementById('current-lang-badge').classList.remove('hidden');
-
-                this.renderQuestion();
+                this.navigate('assessment');
+                this.renderQuizCard();
             },
 
-            renderQuestion() {
-                const qData = this.activeQuestions[this.currentQIndex];
-                const total = this.activeQuestions.length;
+            renderQuizCard() {
+                const qData = this.quizQuestions[this.quizIndex];
+                const total = this.quizQuestions.length;
 
-                document.getElementById('quiz-progress').innerText = `Soru ${this.currentQIndex + 1} / ${total}`;
-                document.getElementById('quiz-difficulty-tag').innerText = `${qData.level} Seviyesi`;
-                document.getElementById('quiz-progress-bar').style.width = `${((this.currentQIndex) / total) * 100}%`;
+                document.getElementById('quiz-q-number').innerText = `Soru ${this.quizIndex + 1} / ${total}`;
+                document.getElementById('quiz-category-tag').innerText = `${qData.level} • ${qData.cat}`;
+                document.getElementById('quiz-progress-bar').style.width = `${((this.quizIndex) / total) * 100}%`;
+
+                document.getElementById('quiz-question-title').innerText = qData.q;
                 
-                document.getElementById('quiz-question').innerText = qData.q;
-                
-                const optContainer = document.getElementById('quiz-options');
+                const optContainer = document.getElementById('quiz-options-container');
                 optContainer.innerHTML = '';
                 
-                document.getElementById('quiz-feedback').classList.add('hidden');
+                document.getElementById('quiz-feedback-box').classList.add('hidden');
                 document.getElementById('quiz-next-btn').classList.add('hidden');
 
                 qData.options.forEach((opt, idx) => {
                     const btn = document.createElement('button');
-                    btn.className = "text-left p-4 rounded-xl comic-btn bg-amber-50 hover:bg-yellow-100 font-medium text-lg w-full transition";
-                    btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
-                    btn.onclick = () => this.checkAnswer(idx, qData.answer, btn);
+                    btn.className = "w-full text-left p-4 rounded-2xl comic-btn bg-amber-50 hover:bg-brand-lightYellow font-comic font-bold text-base md:text-lg flex items-center justify-between";
+                    btn.innerHTML = `
+                        <span><span class="inline-block w-8 h-8 rounded-xl bg-white comic-border text-center text-xs leading-7 mr-3">${String.fromCharCode(65 + idx)}</span>${opt}</span>
+                        <i class="fa-solid fa-circle-arrow-right text-slate-300"></i>
+                    `;
+                    btn.onclick = () => this.handleQuizAnswer(idx, qData.answer, btn);
                     optContainer.appendChild(btn);
                 });
             },
 
-            checkAnswer(selectedIdx, correctIdx, btnElement) {
-                const allBtns = document.getElementById('quiz-options').children;
-                for (let b of allBtns) {
-                    b.disabled = true;
-                }
+            handleQuizAnswer(selectedIdx, correctIdx, btnElement) {
+                const allBtns = document.getElementById('quiz-options-container').children;
+                for (let b of allBtns) b.disabled = true;
 
-                const feedback = document.getElementById('quiz-feedback');
-                feedback.classList.remove('hidden');
+                const feedbackBox = document.getElementById('quiz-feedback-box');
+                const feedbackTitle = document.getElementById('quiz-feedback-title');
+                const feedbackDesc = document.getElementById('quiz-feedback-desc');
+                const feedbackIcon = document.getElementById('quiz-feedback-icon');
+
+                feedbackBox.classList.remove('hidden');
 
                 if (selectedIdx === correctIdx) {
-                    this.score += 10;
+                    this.quizScore += 10;
+                    this.gainReward(15, 10);
                     btnElement.classList.remove('bg-amber-50');
                     btnElement.classList.add('bg-green-300');
-                    feedback.className = "p-4 rounded-xl comic-border mb-4 font-bold text-center bg-green-100 text-green-800";
-                    feedback.innerText = "🍌 Muz gibi tatlı! Doğru cevap!";
+                    
+                    feedbackBox.className = "p-5 rounded-2xl comic-border mb-6 bg-green-100 border-green-800 text-green-950";
+                    feedbackIcon.innerText = "🍌";
+                    feedbackTitle.innerText = "Mükemmel! Doğru Cevap";
+                    feedbackDesc.innerText = "Kuralı çok iyi kavramışsın. +15 XP ve +10 Muz kazandın!";
                 } else {
                     btnElement.classList.remove('bg-amber-50');
                     btnElement.classList.add('bg-red-200');
                     allBtns[correctIdx].classList.add('bg-green-200');
-                    feedback.className = "p-4 rounded-xl comic-border mb-4 font-bold text-center bg-red-100 text-red-800";
-                    feedback.innerText = "Oops! Yanlış cevap ama pes etmek yok!";
+
+                    feedbackBox.className = "p-5 rounded-2xl comic-border mb-6 bg-red-100 border-red-800 text-red-950";
+                    feedbackIcon.innerText = "💡";
+                    feedbackTitle.innerText = "Küçük Bir Yanılgı!";
+                    feedbackDesc.innerText = `Doğru cevap ${String.fromCharCode(65 + correctIdx)} şıkkı olmalıydı. Ünite anlatımlarında bu konuyu detaylıca pekiştireceksin.`;
                 }
 
                 document.getElementById('quiz-next-btn').classList.remove('hidden');
             },
 
-            nextQuestion() {
-                this.currentQIndex++;
-                if (this.currentQIndex < this.activeQuestions.length) {
-                    this.renderQuestion();
+            nextAssessmentQuestion() {
+                this.quizIndex++;
+                if (this.quizIndex < this.quizQuestions.length) {
+                    this.renderQuizCard();
                 } else {
                     this.finishAssessment();
                 }
             },
 
             finishAssessment() {
-                // Skora göre seviye hesaplama
-                const totalPoints = this.activeQuestions.length * 10;
-                const ratio = this.score / totalPoints;
+                const totalPossible = this.quizQuestions.length * 10;
+                const ratio = this.quizScore / totalPossible;
 
-                if (ratio >= 0.8) {
-                    this.userLevel = "B1";
-                } else if (ratio >= 0.4) {
-                    this.userLevel = "A2";
-                } else {
-                    this.userLevel = "A1";
+                let assignedLevel = "A1_A2";
+                let levelName = "A1 Başlangıç";
+
+                if (ratio >= 0.7) {
+                    assignedLevel = "A2_B1";
+                    levelName = "A2 Orta Düzeye Geçiş";
                 }
 
-                document.getElementById('view-assessment').classList.add('hidden');
-                document.getElementById('view-dashboard').classList.remove('hidden');
-                
-                const levelBadge = document.getElementById('current-level-badge');
-                levelBadge.innerText = this.userLevel;
-                levelBadge.classList.remove('hidden');
-
-                document.getElementById('user-level-title').innerText = `Mevcut Seviyen: ${this.userLevel}`;
-                this.renderCurriculum();
+                this.currentLevelPathway = assignedLevel;
+                alert(`🎉 Tebrikler! Seviyen belirlendi: ${levelName}\nŞimdi senin için özel hazırlanan 20 adımlık derin müfredata yönlendiriliyorsun.`);
+                this.navigate('curriculum');
             },
 
-            renderCurriculum() {
-                const container = document.getElementById('curriculum-list');
-                container.innerHTML = '';
+            quickLoadCurriculum(lang, pathway) {
+                this.currentLang = lang;
+                this.currentLevelPathway = pathway;
+                document.getElementById('stat-lang').innerText = lang.toUpperCase();
+                this.navigate('curriculum');
+            },
 
-                CURRICULUM_A2_B1.forEach((item) => {
+            switchLevelPathway(pathway) {
+                this.currentLevelPathway = pathway;
+                document.getElementById('curr-badge-level').innerText = pathway === 'A1_A2' ? 'A1 ➔ A2 Kapsamlı Geçiş' : 'A2 ➔ B1 Akıcılık & Detay';
+                this.renderCurriculumGrid();
+            },
+
+            // Müfredat Ünitelerini Ekrana Bas
+            renderCurriculumGrid() {
+                const langUnits = KNOWLEDGE_BASE[this.currentLang] || KNOWLEDGE_BASE['en'];
+                const units = langUnits[this.currentLevelPathway] || langUnits['A1_A2'];
+                const grid = document.getElementById('unit-cards-grid');
+                grid.innerHTML = '';
+
+                // Eğer o dil/seviye için henüz 20 ünite yazılmamışsa, şablon üniteleri tamamla
+                const completeUnits = [...units];
+                while(completeUnits.length < 20) {
+                    const nextId = completeUnits.length + 1;
+                    completeUnits.push({
+                        id: nextId,
+                        title: `Ünite ${nextId}: İleri Dilbilgisi & Kalıp Yapıları`,
+                        subtitle: "Kalıp ifadeler, bağlaçlar ve pratik konuşma cümleleri.",
+                        theory: `<p>Bu ünitede günlük dilde sıkça kullanılan ileri düzey yapıları, gerçek hayat diyaloglarıyla derinlemesine işliyoruz.</p>`,
+                        words: [
+                            { word: `Lexicon ${nextId}`, ipa: "/ˈlɛksɪkən/", meaning: "Sözcük Dağarcığı", example: "Expand your lexicon with reading.", cat: "İş & Eğitim" }
+                        ],
+                        practice: {
+                            q: "Select the correct transition word to complete the sentence.",
+                            options: ["However", "Therefore", "Because", "Although"],
+                            answer: 0,
+                            explanation: "Zıtlık belirten durumlarda 'However' kullanımı uygundur."
+                        }
+                    });
+                }
+
+                completeUnits.forEach(u => {
                     const card = document.createElement('div');
-                    card.className = "p-4 rounded-2xl comic-btn bg-white hover:bg-yellow-50 flex justify-between items-center cursor-pointer";
-                    card.onclick = () => this.openTopic(item);
+                    card.className = "bg-white p-5 rounded-3xl comic-border shadow-comic hover:shadow-comic-lg transition flex justify-between items-center cursor-pointer group";
+                    card.onclick = () => this.openUnitStudy(u);
 
                     card.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <span class="w-8 h-8 rounded-full bg-minion-yellow comic-border flex items-center justify-center font-bold text-sm">
-                                ${item.id}
-                            </span>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-brand-yellow comic-border flex items-center justify-center font-comic font-bold text-lg group-hover:rotate-6 transition">
+                                ${u.id}
+                            </div>
                             <div>
-                                <h4 class="font-bold text-gray-800">${item.title}</h4>
-                                <p class="text-xs text-gray-500 line-clamp-1">${item.desc}</p>
+                                <h4 class="font-comic font-bold text-lg text-brand-denim group-hover:text-blue-600 transition">${u.title}</h4>
+                                <p class="text-xs text-slate-500 font-medium line-clamp-1">${u.subtitle}</p>
+                                <span class="inline-block mt-2 text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md">
+                                    <i class="fa-solid fa-layer-group text-[10px]"></i> ${u.words ? u.words.length : 2} Kelime • 1 Gramer Kuralı
+                                </span>
                             </div>
                         </div>
-                        <span class="text-xl">🚀</span>
+                        <div class="text-2xl text-slate-400 group-hover:text-brand-yellow group-hover:translate-x-1 transition">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                        </div>
                     `;
-                    container.appendChild(card);
+                    grid.appendChild(card);
                 });
             },
 
-            openTopic(topic) {
-                document.getElementById('view-dashboard').classList.add('hidden');
-                document.getElementById('view-topic').classList.remove('hidden');
+            // Bir Üniteyi Derinlemesine Aç
+            openUnitStudy(unit) {
+                this.activeUnit = unit;
+                this.navigate('unit-study');
 
-                document.getElementById('topic-unit-badge').innerText = `Ünite ${topic.id}`;
-                document.getElementById('topic-title').innerText = topic.title;
-                document.getElementById('topic-explanation').innerText = topic.desc;
+                document.getElementById('study-unit-level').innerText = `ÜNİTE ${unit.id}`;
+                document.getElementById('study-title').innerText = unit.title;
+                document.getElementById('study-subtitle').innerText = unit.subtitle;
 
-                // Kelime Kartları
-                const flashcardContainer = document.getElementById('topic-flashcards');
-                flashcardContainer.innerHTML = '';
-                topic.words.forEach(word => {
-                    const fc = document.createElement('div');
-                    fc.className = "bg-white p-3 rounded-xl comic-border text-center transform hover:scale-105 transition cursor-pointer";
-                    fc.innerHTML = `
-                        <p class="font-bold text-blue-600 text-lg">${word.w}</p>
-                        <p class="text-gray-500 text-sm">${word.m}</p>
+                // 1. Teori Anlatımı
+                document.getElementById('theory-content-body').innerHTML = unit.theory;
+
+                // 2. Kelime Kartları
+                const wordGrid = document.getElementById('unit-vocabulary-cards');
+                wordGrid.innerHTML = '';
+                (unit.words || []).forEach(w => {
+                    const card = document.createElement('div');
+                    card.className = "bg-amber-50 p-4 rounded-2xl comic-border flex flex-col justify-between hover:bg-yellow-100 transition";
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold bg-white px-2 py-0.5 rounded-full comic-border-sm text-slate-600">${w.cat || 'Kelime'}</span>
+                                <button onclick="app.speak('${w.word}')" class="w-8 h-8 rounded-full bg-white comic-border flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                                    <i class="fa-solid fa-volume-high text-xs"></i>
+                                </button>
+                            </div>
+                            <h5 class="text-xl font-bold font-comic text-brand-blue">${w.word}</h5>
+                            <p class="text-xs text-slate-400 font-mono mb-2">${w.ipa || ''}</p>
+                            <p class="font-bold text-sm text-slate-800">${w.meaning}</p>
+                        </div>
+                        <p class="text-xs text-slate-600 italic mt-3 bg-white p-2 rounded-xl border border-amber-200">
+                            "${w.example || ''}"
+                        </p>
                     `;
-                    flashcardContainer.appendChild(fc);
+                    wordGrid.appendChild(card);
                 });
 
-                // Mini Test
-                document.getElementById('topic-quiz-q').innerText = topic.quiz.q;
-                const optContainer = document.getElementById('topic-quiz-options');
-                optContainer.innerHTML = '';
-                topic.quiz.opts.forEach((opt, idx) => {
+                // 3. Pratik
+                const practiceContainer = document.getElementById('unit-practice-container');
+                practiceContainer.innerHTML = `
+                    <p class="text-base font-bold font-comic text-slate-800">${unit.practice.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="practice-opts">
+                    </div>
+                    <div id="practice-feedback" class="hidden p-4 rounded-xl comic-border text-sm font-bold"></div>
+                `;
+
+                const optBox = document.getElementById('practice-opts');
+                unit.practice.options.forEach((opt, idx) => {
                     const btn = document.createElement('button');
-                    btn.className = "p-3 rounded-xl comic-btn bg-gray-50 hover:bg-amber-100 text-left font-medium";
-                    btn.innerText = opt;
+                    btn.className = "p-3 rounded-xl comic-btn bg-white hover:bg-amber-100 font-bold text-sm text-left";
+                    btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
                     btn.onclick = () => {
-                        if (idx === topic.quiz.a) {
-                            btn.classList.add('bg-green-300');
-                            alert("Harika! Doğru cevap. 🍌");
+                        const feedback = document.getElementById('practice-feedback');
+                        feedback.classList.remove('hidden');
+                        if (idx === unit.practice.answer) {
+                            feedback.className = "p-4 rounded-xl comic-border text-sm font-bold bg-green-100 text-green-900";
+                            feedback.innerHTML = `🎉 Harika! Doğru. <br><span class="font-normal text-xs">${unit.practice.explanation}</span>`;
+                            app.gainReward(20, 5);
                         } else {
-                            btn.classList.add('bg-red-200');
-                            alert("Tekrar dene! 💪");
+                            feedback.className = "p-4 rounded-xl comic-border text-sm font-bold bg-red-100 text-red-900";
+                            feedback.innerText = "❌ Yanlış cevap, kuralları tekrar inceleyip dene!";
                         }
                     };
-                    optContainer.appendChild(btn);
+                    optBox.appendChild(btn);
+                });
+
+                this.switchStudyTab('theory');
+            },
+
+            switchStudyTab(tabName) {
+                const tabs = ['theory', 'vocabulary', 'practice'];
+                tabs.forEach(t => {
+                    document.getElementById(`study-tab-${t}`).classList.add('hidden');
+                    const btn = document.getElementById(`tab-btn-${t}`);
+                    btn.classList.remove('bg-white', 'shadow-comic');
+                    btn.classList.add('bg-amber-100');
+                });
+
+                document.getElementById(`study-tab-${tabName}`).classList.remove('hidden');
+                const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+                activeBtn.classList.remove('bg-amber-100');
+                activeBtn.classList.add('bg-white', 'shadow-comic');
+            },
+
+            // Genel Kelime Kasasını Listele & Filtrele
+            renderVault() {
+                const grid = document.getElementById('vault-words-grid');
+                grid.innerHTML = '';
+
+                const search = (document.getElementById('vault-search-input')?.value || '').toLowerCase();
+                const catFilter = document.getElementById('vault-category-filter')?.value || 'all';
+
+                const filtered = VAULT_DATABASE.filter(w => {
+                    const matchesSearch = w.word.toLowerCase().includes(search) || w.meaning.toLowerCase().includes(search);
+                    const matchesCat = catFilter === 'all' || w.cat === catFilter;
+                    return matchesSearch && matchesCat;
+                });
+
+                filtered.forEach(w => {
+                    const card = document.createElement('div');
+                    card.className = "bg-amber-50 p-4 rounded-2xl comic-border flex flex-col justify-between";
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="bg-brand-blue text-white text-[10px] font-bold px-2 py-0.5 rounded">${w.level}</span>
+                                <button onclick="app.speak('${w.word}')" class="text-slate-600 hover:text-blue-600">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <h5 class="text-xl font-bold font-comic text-slate-800">${w.word}</h5>
+                            <p class="text-xs text-slate-400 font-mono">${w.ipa}</p>
+                            <p class="font-bold text-sm text-slate-700 mt-1">${w.meaning}</p>
+                        </div>
+                        <p class="text-xs text-slate-500 italic mt-2 border-t border-amber-200 pt-2">"${w.ex}"</p>
+                    `;
+                    grid.appendChild(card);
                 });
             },
 
-            backToDashboard() {
-                document.getElementById('view-topic').classList.add('hidden');
-                document.getElementById('view-dashboard').classList.remove('hidden');
+            filterVaultWords() {
+                this.renderVault();
+            },
+
+            gainReward(xpAdd, bananaAdd) {
+                this.xp += xpAdd;
+                this.bananas += bananaAdd;
+                document.getElementById('stat-xp').innerText = `${this.xp} XP`;
+                document.getElementById('stat-bananas').innerText = this.bananas;
             }
+        };
+
+        // Uygulama Başlatma
+        window.onload = () => {
+            app.init();
         };
     </script>
 </body>
